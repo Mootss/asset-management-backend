@@ -1,6 +1,6 @@
 
 # API for asset management app
-A very basic api written in Flask to connect React app to Supabase (postgres) database
+A very basic api written in Flask to connect [this React app](https://github.com/Mootss/asset-management) to Supabase (postgres) database
 
 database connection string can be found in app.py
 
