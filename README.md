@@ -10,14 +10,14 @@ base url: https://moothy.pythonanywhere.com
 
 #### Get all staff
 
-```http
+```
   GET /staff
 ```
 
 
 #### Get currently assigned assets for a staff
 
-```http
+```
   GET /staff/<national_id>/current
 ```
 
@@ -30,6 +30,6 @@ returns array of asset objects
 
 #### Get all assets
 
-```http
+```
   GET /assets
 ```
