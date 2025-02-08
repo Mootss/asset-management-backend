@@ -33,3 +33,7 @@ returns array of asset objects
 ```
   GET /assets
 ```
+
+```
+  POST /assets/create
+```
