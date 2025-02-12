@@ -97,6 +97,9 @@ def Base():
     <p>(GET) /staff</p>
     <p>(GET) /staff/{national_id}/current</p>
     <p>(GET) /assets</p>
+    <p>(GET) /assets/{id}</p>
+    <p>(POST) /assets/create</p>
+    <p>(POST) /assets/edit/{id}</p>
     """
 
 @app.get("/staff")
@@ -128,6 +131,11 @@ def Assets():
         fetch(table="assets", eq=False)
     )
 
+@app.get("/assets/<id>")
+def getAsset(id):    
+    return jsonify(
+        fetch(table="assets", eq=True, column="id", value=id)
+    )
 
 # POST routes
 
@@ -162,6 +170,37 @@ def CreateAsset():
             "message": err
         })
 
+@app.post("/assets/edit/<id>")
+def UpdateAsset(id):
+    form = request.get_json()
+
+    asset = Asset(
+        type = form.get("type"),
+        status = form.get("status"),
+        purchasedDate = form.get("purchasedDate"),
+        location = form.get("location"),
+        assignedStaff = form.get("assignedStaff"),
+        assignedDate = form.get("assignedDate"),
+        discardedDate = form.get("discardedDate"),
+    )
+
+    print(asset.getData())
+    try:
+        supabase.table("assets").update(
+            asset.getData()
+        ).eq("id", id).execute()
+
+        return jsonify({
+            "success": True
+        })
+    except Exception as err:
+        print(f"ERROR: {err}")
+    
+        return jsonify({
+            "success": False,
+            "message": err
+        })
+
 
 # helper functions
 
@@ -177,6 +216,8 @@ def fetch(table, eq=False, column=None, value=None): # function to query db, ret
         except Exception as err:
             print(err)
             sleep(2)
+
+
 
 # def convertDate(asset): # if date exists then convert date str to date obj, else null
 #     dates = ["purchasedDate", "assignedDate", "discardedDate"]
